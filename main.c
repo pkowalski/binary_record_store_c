@@ -134,14 +134,21 @@ void list_file_contents()
 {
     struct Record current_record;
     FILE *fptr = fopen(get_file_path(FILE_LOCATION), "rb");
-    int counter = 1;
+    int counter = 0;
 
     while (fread(&current_record, sizeof(struct Record), 1, fptr))
     {
-        printf("Record %d\n", counter);
+        printf("Record %d\n", counter + 1);
         print_record(current_record);
         counter++;
     }
+
+    if (counter == 0) {
+        printf("********************\n");
+        printf("* No Records Exist *\n");
+        printf("********************\n");
+    }
+
     fclose(fptr);
 }
 
@@ -309,7 +316,7 @@ int get_index_of_record(struct Record_Store *rec_store, char student_id[])
 
 void delete_record_from_store(struct Record_Store *rec_store, int index_to_delete)
 {
-    rec_store->records[index_to_delete] = rec_store->records[rec_store->last--];
+    rec_store->records[index_to_delete] = rec_store->records[--rec_store->last];
 }
 
 void delete_record(struct Record_Store *rec_store)
