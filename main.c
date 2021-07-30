@@ -425,13 +425,13 @@ struct Record_Store init_record_store()
         {
             add_record_to_store(&rec_store, &found_record);
         }
+        fclose(fptr);
     }
     else
     {
         create_new_file();
     }
 
-    fclose(fptr);
     return rec_store;
 }
 
