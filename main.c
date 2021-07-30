@@ -5,8 +5,8 @@
 #define MAX_SIZE 100 // Max number of records our binary file can store
 #define MAX_BUF 200 // Max buffer for cwd call
 #define STRING_PARAM_LENGTH 30 // Length of string fields on a record
-static char FILE_LOCATION[] = "binary_file.txt"; // Default binary file name
-static char TEMP_FILE[] = "temp.txt"; // Temp store used when updating file
+static char FILE_LOCATION[] = "./binary_file.txt"; // Default binary file name
+static char TEMP_FILE[] = "./temp.txt"; // Temp store used when updating file
 const static int MAX_INIT_RETRIES = 5; // How many times we attempt we try to read the binary file on program init
 
 /******************
@@ -63,15 +63,6 @@ struct Record_Store
  * Helper Functions *
  ********************/
 
-char *get_file_path(char *filename)
-{
-    char path[MAX_BUF];
-
-    getcwd(path, MAX_BUF);
-
-    return strcat(strcat(path, "/"), filename);
-}
-
 enum bool didUserInputStrVal(char *str1)
 {
     if (strcmp(str1, "-1") == 0)
@@ -126,14 +117,14 @@ void print_record(struct Record current_record)
 void create_new_file()
 {
     FILE *fptr;
-    fptr = fopen(get_file_path(FILE_LOCATION), "wb+");
+    fptr = fopen(FILE_LOCATION, "wb+");
     fclose(fptr);
 }
 
 void list_file_contents()
 {
     struct Record current_record;
-    FILE *fptr = fopen(get_file_path(FILE_LOCATION), "rb");
+    FILE *fptr = fopen(FILE_LOCATION, "rb");
     int counter = 0;
 
     while (fread(&current_record, sizeof(struct Record), 1, fptr))
@@ -154,7 +145,7 @@ void list_file_contents()
 
 void write_to_file(struct Record_Store *rec_store)
 {
-    FILE *temp_ptr = fopen(get_file_path(TEMP_FILE), "wb+");
+    FILE *temp_ptr = fopen(TEMP_FILE, "wb+");
 
     int current;
     struct Record current_record;
@@ -415,7 +406,7 @@ enum options get_user_selection()
  **/
 struct Record_Store init_record_store()
 {
-    FILE *fptr = fopen(get_file_path(FILE_LOCATION), "rb");
+    FILE *fptr = fopen(FILE_LOCATION, "rb");
     int tries = 1;
 
     struct Record found_record;
@@ -424,7 +415,7 @@ struct Record_Store init_record_store()
     // If file fails to open retry by configured amount
     while (fptr == NULL && tries++ < MAX_INIT_RETRIES)
     {
-        fptr = fopen(get_file_path(FILE_LOCATION), "rb");
+        fptr = fopen(FILE_LOCATION, "rb");
     }
 
     if (fptr != NULL)
@@ -478,4 +469,6 @@ int main(void)
             break;
         };
     }
+
+    return 1;
 }
