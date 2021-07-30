@@ -2,11 +2,11 @@
 #include <string.h>
 #include <unistd.h>
 
-const static char FILE_LOCATION[] = "binary_file.txt"; // Default binary file name
-const static char TEMP_FILE[] = "temp.txt"; // Temp store used when updating file
-const static int MAX_SIZE = 100; // Max number of records our binary file can store
+#define MAX_SIZE 100 // Max number of records our binary file can store
+#define MAX_BUF 200 // Max buffer for cwd call
+static char FILE_LOCATION[] = "binary_file.txt"; // Default binary file name
+static char TEMP_FILE[] = "temp.txt"; // Temp store used when updating file
 const static int STRING_PARAM_LENGTH = 30; // Length of string fields on a record
-const static int MAX_BUF = 200; // Max buffer for cwd call
 const static int MAX_INIT_RETRIES = 5; // How many times we attempt we try to read the binary file on program init
 
 /******************
@@ -384,7 +384,7 @@ void update(struct Record_Store *rec_store)
     if (current == -1)
     {
         printf("That Student ID does not exist. Would you like to create it? y/n\n");
-        scanf("%s", &yes_no);
+        scanf("%s", yes_no);
         if (strcmp(yes_no, "y") == 0)
         {
             current_record = create_record(search_student_id);
