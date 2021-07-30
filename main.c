@@ -4,9 +4,9 @@
 
 #define MAX_SIZE 100 // Max number of records our binary file can store
 #define MAX_BUF 200 // Max buffer for cwd call
+#define STRING_PARAM_LENGTH 30 // Length of string fields on a record
 static char FILE_LOCATION[] = "binary_file.txt"; // Default binary file name
 static char TEMP_FILE[] = "temp.txt"; // Temp store used when updating file
-const static int STRING_PARAM_LENGTH = 30; // Length of string fields on a record
 const static int MAX_INIT_RETRIES = 5; // How many times we attempt we try to read the binary file on program init
 
 /******************
@@ -154,7 +154,7 @@ void list_file_contents()
 
 void write_to_file(struct Record_Store *rec_store)
 {
-    FILE *temp_ptr = fopen(get_file_path(TEMP_FILE), "ab+");
+    FILE *temp_ptr = fopen(get_file_path(TEMP_FILE), "wb+");
 
     int current;
     struct Record current_record;
