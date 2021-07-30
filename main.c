@@ -227,7 +227,7 @@ struct Record create_update_record(struct Record rec, enum bool is_update)
     }
     else
     {
-        printf("New Grade: \n");
+        printf("New Grade (2 digit int e.g. 89): \n");
     }
     scanf("%f", &grade);
 
